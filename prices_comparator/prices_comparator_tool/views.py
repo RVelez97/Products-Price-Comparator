@@ -10,7 +10,7 @@ def index(request):
     form= ProductCategoryForm()
     products=ProductCategory.objects.all()
     if request.method == 'POST':
-        product = ProductCategory(product_name = request.POST['product_name'])
+        product = ProductCategory(product_name = request.POST['product_name'],units=request.POST['units'])
         product.save()
         return render(
             request,
@@ -52,12 +52,12 @@ def delete_product(request,pk):
 def add_products_to_compare(request,pk):
     form = ProductForm()
     products = Product.objects.filter(product_category__id=pk).annotate(
-        price_per_100g = 100*F('product_price')/(F('product_weight')*F('total_units'))).order_by('price_per_100g')
+        price_per_100g = 100*F('product_price')/(F('product_weight_volume_longitude')*F('total_units'))).order_by('price_per_100g')
     if request.method == 'POST':
         product_category = get_object_or_404(ProductCategory, id=pk)
         product=Product(
         product_name=request.POST['product_name'],
-        product_weight=request.POST['product_weight'],
+        product_weight_volume_longitude=request.POST['product_weight_volume_longitude'],
         product_price=request.POST['product_price'],
         total_units=request.POST['total_units'],
         product_category=product_category

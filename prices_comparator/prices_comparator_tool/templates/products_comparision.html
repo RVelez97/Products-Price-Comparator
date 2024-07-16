@@ -41,10 +41,10 @@
             {{ product.product_price }}
           </td>
           <td>
-            {{ product.product_weight }}
+            {{ product.product_weight_volume_longitude }}
           </td>
           <td>
-            {{ product.price_per_100g }}
+            {{ product.price_per_measure_unit }}
           </td>
           <td>
             <a href="{% url 'delete_product' product.id %}">
