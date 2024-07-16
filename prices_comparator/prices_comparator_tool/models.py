@@ -11,5 +11,5 @@ class Product(models.Model):
     total_units = models.IntegerField(default=0)
     product_category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     def price_per_100g(self):
-        return  self.product_price/self.product_weight*100
+        return  self.product_price/(self.product_weight*self.total_units)*100
     

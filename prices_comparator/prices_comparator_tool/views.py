@@ -51,7 +51,8 @@ def delete_product(request,pk):
 
 def add_products_to_compare(request,pk):
     form = ProductForm()
-    products = Product.objects.filter(product_category__id=pk).annotate(price_per_100g = 100*F('product_price')/F('product_weight')).order_by('price_per_100g')
+    products = Product.objects.filter(product_category__id=pk).annotate(
+        price_per_100g = 100*F('product_price')/(F('product_weight')*F('total_units'))).order_by('price_per_100g')
     if request.method == 'POST':
         product_category = get_object_or_404(ProductCategory, id=pk)
         product=Product(
