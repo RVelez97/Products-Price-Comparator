@@ -48,7 +48,7 @@
       {% for product in products %}
       <tr>
         <td>{{ product.product_name }}</td>
-        <td>{{ product.units }}</td>
+        <td>{{ product.measure_units }}</td>
         <td>
           <div class="btn-group" role="group" aria-label="Basic example">
             <a href="{% url 'add_products_to_compare' product.id %}">

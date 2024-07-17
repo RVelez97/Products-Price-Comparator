@@ -10,7 +10,7 @@ class Units(Enum):
 
 class ProductCategory(models.Model):
     product_name = models.CharField(verbose_name= 'Product',max_length=250)
-    units = models.CharField(
+    measure_units = models.CharField(
         max_length=10,  
         choices=[(unit.value, unit.name) for unit in Units],
         default=Units.LONGITUDE.value

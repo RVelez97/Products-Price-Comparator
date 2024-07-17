@@ -12,17 +12,17 @@ class ProductCategoryForm(forms.Form):
     product_name = forms.CharField(label="Product Name", max_length=100)
     class Meta:
         model = ProductCategory
-        fields = ['product_name','units']
+        fields = ['product_name','measure_units']
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
                 Field('product_name', title='Product Name'),
-                Field('units', title='Measure units'),
+                Field('measure_units', title='Measure units'),
                 Submit('submit', 'Submit', css_class='button white'),
                 
             )
-    units = forms.ChoiceField(
+    measure_units = forms.ChoiceField(
         choices=[(unit.value, unit.name) for unit in Units],
     )
         

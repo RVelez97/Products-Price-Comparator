@@ -28,7 +28,13 @@
         <td>Name</td>
         <td>Price</td>
         <td>Weight</td>
+        {% if measure_unit == 'WEIGHT' %}
         <td>Price per 100g</td>
+        {% elif measure_unit == 'VOLUME' %}
+        <td>Price per 100cm3</td>
+        {% else %}
+        <td>Price per 100cm</td>
+        {% endif %}
       </tr>
     </thead>
     <tbody>
