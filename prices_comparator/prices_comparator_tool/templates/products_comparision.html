@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="modal-delete-product-category" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-delete-product" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -34,7 +34,7 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
         <form method = 'post'>
           {% csrf_token %}
-          <button id= 'delete_product_category_button' type="input" class="btn btn-primary"  name = 'delete'>Delete</button>
+          <button id= 'delete_product_button' type="input" class="btn btn-primary"  name = 'delete'>Delete</button>
         </form>
       </div>
     </div>
@@ -47,13 +47,7 @@
       <tr>
         <td>Name</td>
         <td>Price</td>
-        {% if measure_unit == "WEIGHT" %}
-        <td>Weight</td>
-        {% elif measure_unit == "VOLUME" %}
-        <td>Volume</td>
-        {% else %}
-        <td>Longitude</td>
-        {% endif %}
+        <td>Units per pack</td>
         {% if measure_unit == "WEIGHT" %}
         <td>Price per 100g</td>
         {% elif measure_unit == "VOLUME" %}
@@ -73,14 +67,14 @@
             {{ product.product_price }}
           </td>
           <td>
-            {{ product.product_weight_volume_longitude }}
+            {{ product.total_units }}
           </td>
           <td>
             {{ product.price_per_measure_unit }}
           </td>
           <td>
             <button id="delete-{{ product.id }}" class="btn btn-outline-danger" type="button"
-              data-bs-toggle="modal" data-bs-target="#modal-delete-product-category" data-bs-whatever="{{ product.id }}">
+              data-bs-toggle="modal" data-bs-target="#modal-delete-product" data-bs-whatever="{{ product.id }}">
               <i class="fa fa-trash">
               </i>
             </button>
@@ -93,17 +87,17 @@
 </div>
 <script>
   $(document).ready(function () {
-  var delete_product_category_modal = document.querySelector('#modal-delete-product-category');
+  var delete_product_modal = document.querySelector('#modal-delete-product');
 
-  if (delete_product_category_modal) {
-    delete_product_category_modal.addEventListener('show.bs.modal', event => {
+  if (delete_product_modal) {
+    delete_product_modal.addEventListener('show.bs.modal', event => {
     const button = event.relatedTarget
-    const recipient = button.getAttribute('data-bs-whatever')
-    const modalTitle = delete_product_category_modal.querySelector('.modal-title')
-    modalTitle.textContent = `Are you sure to delete '${recipient}' category?`
-    const deleteButton = delete_product_category_modal.querySelector('#delete_product_category_button')
+    const identifier = button.getAttribute('data-bs-whatever')
+    const modalTitle = delete_product_modal.querySelector('.modal-title')
+    modalTitle.textContent = `Are you sure to delete this PRODUCT?`
+    const deleteButton = delete_product_modal.querySelector('#delete_product_button')
     deleteButton.className='value'
-    deleteButton.value = recipient
+    deleteButton.value = identifier
   })
 }
 });
