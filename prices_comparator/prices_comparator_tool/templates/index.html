@@ -87,12 +87,12 @@
   if (delete_product_category_modal) {
     delete_product_category_modal.addEventListener('show.bs.modal', event => {
     const button = event.relatedTarget
-    const recipient = button.getAttribute('data-bs-whatever')
+    const identifier = button.getAttribute('data-bs-whatever')
     const modalTitle = delete_product_category_modal.querySelector('.modal-title')
-    modalTitle.textContent = `Are you sure to delete '${recipient}' category?`
+    modalTitle.textContent = `Are you sure to delete this PRODUCT CATEGORY?`
     const deleteButton = delete_product_category_modal.querySelector('#delete_product_category_button')
     deleteButton.className='value'
-    deleteButton.value = recipient
+    deleteButton.value = identifier
   })
 }
 });
