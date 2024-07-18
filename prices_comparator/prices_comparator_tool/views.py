@@ -9,20 +9,25 @@ from .forms import ProductCategoryForm, ProductForm
 def index(request):
     form= ProductCategoryForm()
     products=ProductCategory.objects.all()
-    
     if request.method == 'POST':
-        product = ProductCategory(product_name = request.POST['product_name'],measure_units=request.POST['measure_units'])
-        measure_unit = product.measure_units
-        product.save()
-        return render(
-            request,
-            'index.html',
-            context={
-            "form":form,
-            'products':products,
-            'measure_unit':measure_unit
-            }
-            )
+        delete_param=request.POST.get('delete')
+        if delete_param is not None:
+            to_delete=get_object_or_404(ProductCategory, id=request.POST['delete'])
+            to_delete.delete()
+            return redirect('home')
+        else:
+            product = ProductCategory(product_name = request.POST['product_name'],measure_units=request.POST['measure_units'])
+            measure_unit = product.measure_units
+            product.save()
+            return render(
+                request,
+                'index.html',
+                context={
+                "form":form,
+                'products':products,
+                'measure_unit':measure_unit
+                }
+                )
     return render(
             request,
             'index.html',
@@ -43,39 +48,38 @@ def delete_product_category(request,pk):
         return redirect('home')
     return render(request, 'delete.html', {'product': to_delete})
 
-def delete_product(request,pk):
-    to_delete=get_object_or_404(Product, id=pk)
-    if request.method == 'POST':
-        id=to_delete.product_category.id
-        to_delete.delete()
-        return redirect('add_products_to_compare',pk=id)
-    return render(request, 'delete_product.html', {'product': to_delete})
-
-
 def add_products_to_compare(request,pk):
     form = ProductForm()
     products = Product.objects.filter(product_category__id=pk).annotate(
         price_per_measure_unit = 100*F('product_price')/(F('product_weight_volume_longitude')*F('total_units'))).order_by('price_per_measure_unit')
+    measure_unit = ProductCategory.objects.get(id=pk).measure_units
     if request.method == 'POST':
-        product_category = get_object_or_404(ProductCategory, id=pk)
-        product=Product(
-        product_name=request.POST['product_name'],
-        product_weight_volume_longitude=request.POST['product_weight_volume_longitude'],
-        product_price=request.POST['product_price'],
-        total_units=request.POST['total_units'],
-        product_category=product_category
-        )
-        product.save()
-        return render(request, 'products_comparision.html', 
-                        {
-                          'form': form,
-                          'products':products
-                        }
-                        )
+        delete_param=request.POST.get('delete')
+        if delete_param is not None:
+            to_delete=get_object_or_404(Product, id=request.POST['delete'])
+            to_delete.delete()
+            return redirect('add_products_to_compare',pk)
+        else:
+            product_category = get_object_or_404(ProductCategory, id=pk)
+            product=Product(
+            product_name=request.POST['product_name'],
+            product_weight_volume_longitude=request.POST['product_weight_volume_longitude'],
+            product_price=request.POST['product_price'],
+            total_units=request.POST['total_units'],
+            product_category=product_category
+            )
+            product.save()
+            return render(request, 'products_comparision.html', 
+                            {
+                            'form': form,
+                            'products':products
+                            }
+                            )
 
     return render(request, 'products_comparision.html', 
                 {
                     'form': form,
-                    'products':products
+                    'products':products,
+                    'measure_unit':measure_unit
                 }
             )
