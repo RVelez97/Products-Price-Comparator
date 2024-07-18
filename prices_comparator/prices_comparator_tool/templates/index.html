@@ -8,7 +8,8 @@
   <i class="material-icons">add_box</i>
 </button>
 
-<div class="modal fade" id="modal-form-product-category" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-form-product-category" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -26,14 +27,23 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel"> Add Product Description</h1>
+        <h5 class="modal-title fs-5" id="exampleModalLabel"> Are you sure to delete ?</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form method = 'post'>
+          {% csrf_token %}
+          <button id= 'delete_product_category_button' type="input" class="btn btn-primary"  name = 'delete'>Delete</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
+
+
 
 
 <div>
@@ -57,18 +67,34 @@
                 </i>
               </button>
             </a>
-            <a href="{% url 'delete_product_category' product.id %}">
-              <button class="btn btn-outline-danger" type="button"  data-bs-toggle="modal" data-bs-target="#modal-form-product-category">
-                <i class="fa fa-trash">
-                </i>
-              </button>
-            </a>
+            <button id="delete-{{ product.id }}" class="btn btn-outline-danger" type="button"
+              data-bs-toggle="modal" data-bs-target="#modal-delete-product-category" data-bs-whatever="{{ product.id }}">
+              <i class="fa fa-trash">
+              </i>
+            </button>
           </div>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-    
+
 </div>
+<script>
+  $(document).ready(function () {
+  var delete_product_category_modal = document.querySelector('#modal-delete-product-category');
+
+  if (delete_product_category_modal) {
+    delete_product_category_modal.addEventListener('show.bs.modal', event => {
+    const button = event.relatedTarget
+    const recipient = button.getAttribute('data-bs-whatever')
+    const modalTitle = delete_product_category_modal.querySelector('.modal-title')
+    modalTitle.textContent = `Are you sure to delete '${recipient}' category?`
+    const deleteButton = delete_product_category_modal.querySelector('#delete_product_category_button')
+    deleteButton.className='value'
+    deleteButton.value = recipient
+  })
+}
+});
+</script>
 {% endblock %}
