@@ -37,7 +37,38 @@ def index(request):
             }
             )
     
-        
+
+def edit_product_category(request,pk):
+    to_edit = get_object_or_404(ProductCategory, id=pk)
+    if request.method == 'GET':
+        form= ProductCategoryForm(instance=to_edit)  
+        return render(request,'edit_product_category.html',
+                    {
+                        'form':form
+                        }) 
+    elif request.method == 'POST':
+        to_edit.product_name=request.POST['product_name']
+        to_edit.measure_units=request.POST['measure_units']
+        to_edit.save()
+        return redirect('home')
+    
+
+def edit_product(request,pk):
+    to_edit = get_object_or_404(Product,id=pk)
+    if request.method == 'GET':
+        form= ProductForm(instance=to_edit)  
+        return render(request,'edit_product.html',
+                    {
+                        'form':form
+                        }) 
+    elif request.method == 'POST':
+        to_edit.product_name = request.POST['product_name']
+        to_edit.product_weight_volume_longitude = request.POST['product_weight_volume_longitude']
+        to_edit.product_price = request.POST['product_price']
+        to_edit.total_units = request.POST['total_units']
+        to_edit.save()
+        return redirect('home')
+
 
 
 def delete_product_category(request,pk):
@@ -47,6 +78,7 @@ def delete_product_category(request,pk):
         messages.success(request, "Product deleted successfully!")
         return redirect('home')
     return render(request, 'delete.html', {'product': to_delete})
+
 
 def add_products_to_compare(request,pk):
     form = ProductForm()
