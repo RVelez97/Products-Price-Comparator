@@ -70,19 +70,16 @@
             <td>{{ product.product_name }}</td>
             <td>{{ product.measure_units }}</td>
             <td>
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <a href="{% url 'add_products_to_compare' product.id %}">
-                  <button class="btn btn-outline-success">
-                    <i class="fa fa-edit">
-                    </i>
-                  </button>
-                </a>
-                <button id="delete-{{ product.id }}" class="btn btn-outline-danger" type="button" data-bs-toggle="modal"
-                  data-bs-target="#modal-delete-product-category" data-bs-whatever="{{ product.id }}">
-                  <i class="fa fa-trash">
-                  </i>
-                </button>
-              </div>
+              <a class="btn btn-outline-success" href="{% url 'add_products_to_compare' product.id %}" role="button"><i
+                  class="material-icons">add_box</i></a>
+              <button id="edit-{{ product.id }}" class="btn btn-outline-warning" data-bs-toggle="modal"
+              data-bs-target='#modal-form-product-category'>
+                <i class='material-icons'>edit</i>
+              </button>
+              <button id="delete-{{ product.id }}" class="btn btn-outline-danger" data-bs-toggle="modal"
+                data-bs-target="#modal-delete-product-category" data-bs-whatever="{{ product.id }}">
+                <i class="material-icons">delete</i>
+              </button>
             </td>
           </tr>
           {% endfor %}
