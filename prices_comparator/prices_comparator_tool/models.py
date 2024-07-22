@@ -15,6 +15,9 @@ class ProductCategory(models.Model):
         choices=[(unit.value, unit.name) for unit in Units],
         default=Units.LONGITUDE.value
     )
+
+    def __str__(self) -> str:
+        return self.product_name
     
 
 class Product(models.Model):
@@ -23,6 +26,9 @@ class Product(models.Model):
     product_price = models.FloatField(default=0)
     total_units = models.IntegerField(default=0)
     product_category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+
     def price_per_measure_unit(self):
         return  self.product_price/(self.product_weight_volume_longitude*self.total_units)*100
+    
+    
     
