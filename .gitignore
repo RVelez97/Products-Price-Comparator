@@ -1,1 +1,3 @@
 prices_comparator\db.sqlite3
+venv 
+*.pyc
