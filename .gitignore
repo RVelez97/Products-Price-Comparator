@@ -7,7 +7,7 @@ prices_comparator_tool/db.sqlite3
 *.pyd
 
 # Ignore __pycache__ directories
-__pycache__/
+prices_comparator_tool/__pycache__/
 
 # Ignore build directories
 build/
