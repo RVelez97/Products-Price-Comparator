@@ -1,3 +1,6 @@
+# Ignore the db
+prices_comparator_tool/db.sqlite3
+
 # Ignore Python bytecode files
 *.pyc
 *.pyo
